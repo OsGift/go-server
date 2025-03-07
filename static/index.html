@@ -13,7 +13,9 @@
         }
 
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(-45deg, #667eea, #764ba2, #ff7eb3, #ff758c);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
             color: white;
             text-align: center;
             height: 100vh;
@@ -21,45 +23,132 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         h1 {
             font-size: 3rem;
             margin-bottom: 15px;
-            animation: fadeIn 1.5s ease-in-out;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .word {
+            display: inline-block;
+            transition: transform 0.3s ease-out;
         }
 
         p {
             font-size: 1.2rem;
             margin-bottom: 20px;
             opacity: 0.9;
+            animation: fadeIn 2s ease-in-out;
         }
 
         .btn {
             padding: 12px 25px;
             font-size: 18px;
             color: white;
-            background: #ff7eb3;
+            background: linear-gradient(90deg, #ff7eb3, #ff5a8c);
             border: none;
             border-radius: 5px;
             cursor: pointer;
             text-decoration: none;
-            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s ease-in-out, background 0.3s ease-in-out;
         }
 
         .btn:hover {
-            background: #ff5a8c;
+            transform: translateY(-3px);
+            background: linear-gradient(90deg, #ff5a8c, #ff3b74);
         }
 
-        @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(-10px); }
-            100% { opacity: 1; transform: translateY(0); }
+        /* Floating Particles */
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            opacity: 0;
+            animation: floatUp 8s infinite ease-in-out;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 0;
+                transform: translateY(0);
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh);
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to My Website</h1>
+
+    <!-- Floating Particles -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            for (let i = 0; i < 15; i++) {
+                let particle = document.createElement("div");
+                particle.classList.add("particle");
+                document.body.appendChild(particle);
+
+                let size = Math.random() * 10 + 5;
+                particle.style.width = size + "px";
+                particle.style.height = size + "px";
+                particle.style.left = Math.random() * 100 + "vw";
+                particle.style.animationDuration = Math.random() * 5 + 3 + "s";
+                particle.style.animationDelay = Math.random() * 2 + "s";
+            }
+        });
+
+        // Interactive Word Hover Effect
+        document.addEventListener("DOMContentLoaded", function () {
+            const words = document.querySelectorAll(".word");
+            
+            document.addEventListener("mousemove", function (event) {
+                words.forEach(word => {
+                    const rect = word.getBoundingClientRect();
+                    const wordX = rect.left + rect.width / 2;
+                    const wordY = rect.top + rect.height / 2;
+                    const deltaX = event.clientX - wordX;
+                    const deltaY = event.clientY - wordY;
+                    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                    
+                    if (distance < 100) { // If cursor is close, move the word
+                        word.style.transform = `translate(${deltaX * 0.1}px, ${deltaY * 0.1}px)`;
+                    } else {
+                        word.style.transform = "translate(0, 0)";
+                    }
+                });
+            });
+        });
+    </script>
+
+    <h1>
+        <span class="word">Welcome</span>
+        <span class="word">to</span>
+        <span class="word">My</span>
+        <span class="word">Website</span>
+    </h1>
     <p>Your journey starts here. Explore and discover amazing content!</p>
     <a href="form.html" class="btn">Get Started</a>
+
 </body>
 </html>
