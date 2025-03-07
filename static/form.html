@@ -110,4 +110,35 @@
     </div>
 
 </body>
+<!-- <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector("form");
+        form.addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const formData = new FormData(form);
+
+            fetch("/form", {
+                method: "POST",
+                body: formData,
+            })
+            .then(response => response.text())
+            .then(data => {
+                // Display success message below the form
+                const messageBox = document.createElement("div");
+                messageBox.style.marginTop = "15px";
+                messageBox.style.padding = "10px";
+                messageBox.style.background = "#e3fcef";
+                messageBox.style.color = "#2d7a4b";
+                messageBox.style.border = "1px solid #2d7a4b";
+                messageBox.style.borderRadius = "5px";
+                messageBox.textContent = data;
+                
+                form.appendChild(messageBox);
+            })
+            .catch(error => console.error("Error:", error));
+        });
+    });
+</script> -->
+
 </html>
